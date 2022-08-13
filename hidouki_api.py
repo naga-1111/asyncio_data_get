@@ -15,32 +15,12 @@ import asyncio
 import itertools
 
 class async_api_get:
-    #bybitの銘柄一覧取得
-    def bybit_symbols(self):
-        while True:
-            try:
-                api = requests.get(f"https://api.bybit.com/v2/public/tickers").json()
-                df = pd.DataFrame(api["result"])
-                df["symbol"] = df["symbol"].apply(lambda x: "0" if "21" in x else x)#21期限付き先物の銘柄名を文字列"0"に変える
-                df["symbol"] = df["symbol"].apply(lambda x: "0" if "22" in x else x)#22期限付き先物の銘柄名を文字列"0"に変える
-                df["symbol"] = df["symbol"].apply(lambda x: "0" if "23" in x else x)#23期限付き先物の銘柄名を文字列"0"に変える
-                scli = df["symbol"][df["symbol"] != "0"]    #期限付きじゃないやつだけを抽出
-                #print(scli)
-                scli_usdt = scli.apply(lambda x: x if "USDT" in x else "0") #文字列USDTが入ってないやつは削除
-                list_usdt = list(scli_usdt[scli_usdt != "0"] )
-                #print(list_usdt)
-                #print(len(list_usdt))
-                return list_usdt
-            except Exception as e:
-                print(e)
-                time.sleep(30)
-
     #非同期処理でapi取得（現先乖離）
     async def dev_only_data(self):
         #https://www.twilio.com/blog/asynchronous-http-requests-in-python-with-aiohttp-jp
         #https://docs.aiohttp.org/en/stable/client_reference.html
-        #bybit全銘柄リスト
-        all_symbol = self.bybit_symbols()#["ETHUSDT","BTCUSDT"]#
+        #bybit銘柄リスト
+        all_symbol = ["ETHUSDT","BTCUSDT"]
         #何分足にするか
         mins_periods = 60
         #現在時刻
