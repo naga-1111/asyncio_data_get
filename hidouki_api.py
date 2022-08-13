@@ -79,6 +79,7 @@ class async_api_get:
                         traceback.print_exc()
                         time.sleep(retryt)
                         retryt *= 2
+                continue 
                         
         df = pd.DataFrame(df)
         df.rename(columns={"open_time":"date"},inplace=True)
