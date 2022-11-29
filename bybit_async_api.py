@@ -92,7 +92,7 @@ class bybit_data_manage:
       全銘柄リスト作成
       """
       retryt = 10
-      while (retryt <= 100):
+      while (retryt <= 40):
           try:
               response = requests.get(f"https://api.bybit.com/derivatives/v3/public/tickers?category=linear")
               if response.status_code != 200:
